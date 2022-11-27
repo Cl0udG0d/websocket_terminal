@@ -22,9 +22,15 @@ def make_app():
 
     @app.route('/')
     def index():
-        newurl = b'/static/index.html'
+        kind=request.args.get("kind")
+        username=request.args.get("username")
+        password=request.args.get("password")
+        # print(str(request.query_string))
+        keyword="kind={}&username={}&password={}".format(kind,username,password)
+        newurl = '/static/index.html'
         if request.query_string:
-            newurl = newurl + b'?' + request.query_string
+            newurl = newurl + '?' + keyword
+        print(newurl)
         return redirect(newurl)
     return app
 
@@ -41,7 +47,7 @@ class TerminalFactory:
     def __init__(self, args_dict, allow_unsafe=False):
         self.kind = args_dict['kind']
         self.hostname = args_dict.get('hostname', 'localhost')
-        self.port = int(args_dict.get('port', '22'))
+        self.port = int(args_dict.get('port', '8001'))
         self.username = args_dict.get('username')
         self.password = args_dict.get('password')
         self.term = args_dict.get('term')

@@ -4,6 +4,7 @@ function openTerminal() {
     var term = new Terminal();
     var container = document.getElementById('term-container');
     term.open(container);
+
     
     
     
@@ -63,7 +64,13 @@ function openTerminal() {
     fitTerminal();
     
     term.on('data', function(data) {
-        client.send(data);
+        if (data == '\n') {
+            term.write(data+'\n')
+        }else{
+            term.write(data)
+        }
+//        client.send(data);
+//        term.write(data);
     });
     term.on('resize', function(geom) {
         client.resize(geom.cols, geom.rows);
